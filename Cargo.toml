@@ -15,13 +15,13 @@ name = "matroska_info"
 path = "src/bin/matroska_info.rs"
 
 [dependencies]
-nom = "^4.0"
-cookie-factory = "^0.2"
+nom = "4.0.0"
+cookie-factory = "0.2.4"
 av-data = { version = "0.1.0", git = "https://github.com/rust-av/rust-av" }
 av-format = { version = "0.1.0", git = "https://github.com/rust-av/rust-av" }
-circular = "0.2"
-log = "0.4"
+circular = "0.2.0"
+log = "0.4.5"
+pretty_env_logger = "0.2.4"
 
 [dev-dependencies]
-quickcheck = "0.3"
-pretty_env_logger = "0.2"
+quickcheck = "0.7.1"

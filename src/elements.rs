@@ -98,7 +98,7 @@ pub struct SeekHead {
 //https://datatracker.ietf.org/doc/html/draft-lhomme-cellar-matroska-03#section-7.3.4
 named!(pub seek_head<SegmentElement>,
   do_parse!(
-    positions: many1!(complete!(seek)) >>
+    positions: many0!(complete!(seek)) >>
     (SegmentElement::SeekHead(SeekHead {
       positions: positions,
     }))

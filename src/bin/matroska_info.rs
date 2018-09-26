@@ -3,6 +3,7 @@ extern crate av_format;
 extern crate circular;
 extern crate matroska;
 extern crate nom;
+extern crate pretty_env_logger;
 
 use circular::Buffer;
 use nom::{Err, Offset};
@@ -14,6 +15,7 @@ use matroska::ebml::ebml_header;
 use matroska::elements::{segment, segment_element, SegmentElement};
 
 fn main() {
+    pretty_env_logger::init();
     let mut args = env::args();
     let _ = args.next().expect("first arg is program path");
     let filename = args.next().expect("expected file path");
@@ -57,9 +59,7 @@ fn run(filename: &str) -> std::io::Result<()> {
     let length = {
         let res = segment(b.data());
         if let Ok((remaining, segment)) = res {
-            //eprintln!("parsed segment: {:#?}", h);
             println!("+ Segment, size {}", segment.1.unwrap_or(0));
-
             b.data().offset(remaining)
         } else {
             panic!("couldn't parse header");
@@ -99,7 +99,7 @@ fn run(filename: &str) -> std::io::Result<()> {
         let offset = {
             let (i, element) = match segment_element(b.data()) {
                 Ok((i, o)) => (i, o),
-                Err(Err::Error(e)) | Err(Err::Failure(e)) => panic!("failed parsing: {:?}", e),
+                Err(Err::Error(e)) | Err(Err::Failure(e)) => panic!("failed parsing: {:?}", e.into_error_kind()),
                 Err(Err::Incomplete(_i)) => continue,
             };
 
